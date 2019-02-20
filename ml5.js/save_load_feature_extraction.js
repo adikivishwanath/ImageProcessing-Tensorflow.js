@@ -38,7 +38,7 @@ function gotResults(error, result) {
   if (error) {
     console.error(error);
   } else {
-    label = result;
+     label = result;
     //label = results[0].className;
     classifier.classify(gotResults);
   }
