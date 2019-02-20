@@ -1,7 +1,7 @@
 let mobilenet;
-let predictor;
+let classifier;
 let video;
-let value = 'need to be trained';
+let label = 'loading the model';
 let trainButton;
 let sadButton;
 let happyButton;
@@ -9,21 +9,28 @@ let saveButton;
 
 function modelReady() {
   console.log('Model is ready!!!');
+  classifier.load('model.json', customModelReady);
   //mobilenet.predict(gotResults);
+}
+
+function customModelReady() {
+  console.log('custom model is ready');
+  label = 'model is ready';
+  classifier.classify(gotResults);
 }
 
 function videoReady() {
   console.log("Video is ready");
 }
 
-function isTraining(loss) {
-    if(loss == null) {
-      console.log("Training complete");
-      classifier.classify(gotResults);
-    } else {
-      console.log(loss);
-    }
-  }
+// function isTraining(loss) {
+//     if(loss == null) {
+//       console.log("Training complete");
+//       classifier.classify(gotResults);
+//     } else {
+//       console.log(loss);
+//     }
+//   }
 
 
 
@@ -31,9 +38,9 @@ function gotResults(error, result) {
   if (error) {
     console.error(error);
   } else {
-    value = result;
+    label = result;
     //label = results[0].className;
-    predictor.predict(gotResults);
+    classifier.classify(gotResults);
   }
 }
 
@@ -47,7 +54,7 @@ function setup() {
   video.hide();
   background(0);
   mobilenet = ml5.featureExtractor('MobileNet', modelReady);
-  predictor = mobilenet.regression(video, videoReady);
+  classifier = mobilenet.classification(video, videoReady);
 
 
   //slider = createSlider(0, 1, 0.5, 0.01);
@@ -63,34 +70,34 @@ function setup() {
       //predictor.addImage(slider.value());
   //});
 
-  sadButton = createButton('sad');
-  sadButton.position(300, 550);
-  sadButton.mousePressed(function() {
-    classifier.addImage(sad);
+  // sadButton = createButton('sad');
+  // sadButton.position(300, 550);
+  // sadButton.mousePressed(function() {
+  //   classifier.addImage('sad');
+  //
+  // });
 
-  });
-
-  happyButton = createButton('happy');
-  happyButton.position(200, 550);
-  happyButton.mousePressed(function() {
-    classifier.addImage(happy);
-
-  });
+  // happyButton = createButton('happy');
+  // happyButton.position(200, 550);
+  // happyButton.mousePressed(function() {
+  //   classifier.addImage('happy');
+  //
+  // });
 
 
-  trainButton = createButton('train');
-  trainButton.position(500, 550);
-  trainButton.mousePressed(function() {
-    classifier.train(isTraining);
+  // trainButton = createButton('train');
+  // trainButton.position(500, 550);
+  // trainButton.mousePressed(function() {
+  //   classifier.train(isTraining);
+  //
+  // });
 
-  });
-
-  saveButton = createButton('save');
-  saveButton.position(400, 550);
-  saveButton.mousePressed(function() {
-    classifier.save();
-
-  });
+  // saveButton = createButton('save');
+  // saveButton.position(400, 550);
+  // saveButton.mousePressed(function() {
+  //   classifier.save();
+  //
+  // });
 
 }
 
@@ -102,5 +109,5 @@ function draw() {
   //rect(value*width, height/2, 50, 50);
   fill(255);
   textSize(32);
-  text(value, 10, height - 20);
+  text(label, 10, height - 20);
 }
