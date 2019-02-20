@@ -1,62 +1,39 @@
 
-let mobilenet = ml5.imageClassifier('MobileNet', modelReady);
-let img;
-
-function setup() {
-  var c = createCanvas(440, 300);
-  background(100);
-  //image = createImg(img, imageReady);
-  //image.hide();
-  c.drop(gotFile);
-
-  //devicePixelScaling(false);
-  textSize(40);
-  text("DRAG AND DROP FILES HERE", 40, 200); // changed
-
-  fill(255);
-  noStroke();
-  textSize(24);
-  textAlign(CENTER);
-  text('Drag an image file onto the canvas. ' , width / 2, height / 2); // changed
-}
+let mobilenet;
+let video;
+let label = '';
 
 function modelReady() {
-   console.log('Model is ready!!!');
-   //mobilenet.predict(img, gotResults);
-   //puffin.elt.crossOrigin = "Anonymous";
-}
-
-function gotFile(file) {
-  if(file.type === 'image') {
-     img = createImg(file.data, imageReady).hide();
-    //image(img, 0, 0, width, height);
-    }else {
-    console.log('Not an image file');
-  }
-}
-
-function imageReady() {
-  mobilenet.predict(img, gotResults);
-  background(0);
-  console.log('Image is ready');
-  image(img, 0, 0, width, height);
+  console.log('Model is ready!!!');
+  mobilenet.predict(gotResults);
 }
 
 function gotResults(error, results) {
-  if(error) {
+  if (error) {
     console.error(error);
   } else {
-    console.log(results);
-    createP(results[0].className)
-    createP(results[0].probability)
-
-    //let label = results[0].className;
-    //let prob = results[0].probability;
-    //fill(0);
-    //textSize(64);
-    //text(label, 10, height - 100);
-    //textSize(30);
-    //text(prob, 5, height - 50);
+    //console.log(results);
+    label = results[0].className;
+    mobilenet.predict(gotResults);
   }
+}
 
+// function imageReady() {
+//   image(puffin, 0, 0, width, height);
+// }
+
+function setup() {
+  createCanvas(640, 550);
+  video = createCapture(VIDEO);
+  video.hide();
+  background(0);
+  mobilenet = ml5.imageClassifier('MobileNet', video, modelReady);
+}
+
+function draw() {
+  background(0);
+  image(video, 0, 0);
+  fill(255);
+  textSize(32);
+  text(label, 10, height - 20);
 }
