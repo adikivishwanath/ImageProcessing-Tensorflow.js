@@ -1,0 +1,50 @@
+{
+  "knnClassifier": {
+    "classDatasetMatrices": {
+      "0": {
+        "isDisposedInternal": false,
+        "shape": [
+          65,
+          1000
+        ],
+        "dtype": "float32",
+        "size": 65000,
+        "strides": [
+          1000
+        ],
+        "dataId": {},
+        "id": 21636,
+        "rankType": "2"
+      },
+      "1": {
+        "isDisposedInternal": false,
+        "shape": [
+          72,
+          1000
+        ],
+        "dtype": "float32",
+        "size": 72000,
+        "strides": [
+          1000
+        ],
+        "dataId": {},
+        "id": 45247,
+        "rankType": "2"
+      }
+    },
+    "classExampleCount": {
+      "0": 65,
+      "1": 72
+    },
+    "exampleShape": [
+      1,
+      1,
+      1,
+      1000
+    ]
+  },
+  "mapStringToIndex": [
+    "left",
+    "right"
+  ]
+}
