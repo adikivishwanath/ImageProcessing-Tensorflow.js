@@ -18,7 +18,7 @@ function videoReady() {
 function isTraining(loss) {
     if(loss == null) {
       console.log("Training complete");
-      classifier.classify(gotResults);
+      predictor.predict(gotResults);
     } else {
       console.log(loss);
     }
@@ -50,7 +50,7 @@ function setup() {
 
 
   slider = createSlider(0, 1, 0.5, 0.01);
-  //slider.position(200 , 540);
+  slider.position(200 , 540);
   //slider.input(function() {
     //predictor.addImage(slider.value());
     //console.log(slider.value());
@@ -58,6 +58,7 @@ function setup() {
 
 
   addButton = createButton('add example image');
+  addButton.position(50, 548);
   addButton.mousePressed(function() {
       predictor.addImage(slider.value());
   });
@@ -78,6 +79,7 @@ function draw() {
   rectMode(CENTER);
   fill(204, 102, 0);
   rect(value*width, height/2, 50, 50);
+
   fill(255);
   textSize(32);
   text(value, 10, height - 20);
